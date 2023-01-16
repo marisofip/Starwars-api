@@ -37,6 +37,7 @@ def handle_invalid_usage(error):
 def sitemap():
     return generate_sitemap(app)
 
+## CRUD de USER
 @app.route('/user', methods=['GET'])
 def get_users():
     users = User.query.all()
@@ -51,7 +52,7 @@ def get_user(user_id):
 
     return jsonify(user), 200
 
-
+## CRUD de PEOPLE
 @app.route('/people', methods=['GET'])
 def get_people():
     peoples = People.query.all()
@@ -66,6 +67,7 @@ def get_people_id(people_id):
 
     return jsonify(people), 200
 
+## CRUD de PLANET
 @app.route('/planet', methods=['GET'])
 def get_planet():
     planets = Planet.query.all()
@@ -80,7 +82,7 @@ def get_planet_id(planet_id):
 
     return jsonify(planet), 200
 
-
+## CRUD de STARSHIPS
 @app.route('/starships', methods=['GET'])
 def get_starships():
     starshipses = Starships.query.all()
@@ -95,6 +97,7 @@ def get_starships_id(starships_id):
 
     return jsonify(starship), 200
 
+## CRUD de FAVORITE
 @app.route('/favorite', methods=['GET'])
 def get_favorite():
     favorites = Favorite.query.all()
