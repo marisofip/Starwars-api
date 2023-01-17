@@ -67,6 +67,14 @@ def get_people_id(people_id):
 
     return jsonify(people), 200
 
+@app.route('/people/<int:id>', methods=['DELETE'])
+def delete_people(id):
+
+    people = People.query.get(id)
+    people.delete()
+
+    return jsonify({ "message": "Bye Bye People" }), 200
+
 ## CRUD de PLANET
 @app.route('/planet', methods=['GET'])
 def get_planet():
@@ -81,6 +89,14 @@ def get_planet_id(planet_id):
     planet = planet.serialize()
 
     return jsonify(planet), 200
+
+@app.route('/planet/<int:id>', methods=['DELETE'])
+def delete_planet(id):
+
+    planet = Planet.query.get(id)
+    planet.delete()
+
+    return jsonify({ "message": "Bye Bye Planet" }), 200
 
 ## CRUD de STARSHIPS
 @app.route('/starships', methods=['GET'])
@@ -97,6 +113,14 @@ def get_starships_id(starships_id):
 
     return jsonify(starship), 200
 
+@app.route('/starships/<int:id>', methods=['DELETE'])
+def delete_starships(id):
+
+    starship = Starships.query.get(id)
+    starship.delete()
+
+    return jsonify({ "message": "Bye Bye Planet" }), 200
+
 ## CRUD de FAVORITE
 @app.route('/favorite', methods=['GET'])
 def get_favorite():
@@ -109,7 +133,6 @@ def get_favorite():
 def select_fav(id):
     favorito = Favorite.query.filter_by(user_id = id).all()
     favorite_user = [favorite.serialize() for favorite in favorito]
-    print(favorito)
     return jsonify(favorite_user), 200
 
 @app.route('/favorite', methods=['POST'])
@@ -120,10 +143,61 @@ def new_favorite():
     favorite.user_id = datos['user_id']
     favorite.people_id = datos['people_id']
     favorite.planet_id = datos['planet_id']
+    favorite.starships_id = datos['starships_id']
     favorite.save()
 
     return jsonify(favorite.serialize()), 201
+
+@app.route('/favorite/people', methods=['POST'])
+def new_favoritepeople(): 
+    datos = request.get_json()
+    favorite = Favorite()
+    favorite.user_id = datos['user_id']
+    favorite.people_id = datos['people_id']
+    favorite.save()
+    return jsonify(favorite.serialize()), 201
+
+@app.route('/favorite/planet', methods=['POST'])
+def new_favoriteplanet(): 
+    datos = request.get_json()
+    favorite = Favorite()
+    favorite.user_id = datos['user_id']
+    favorite.planet_id = datos['planet_id']
+    favorite.save()
+    return jsonify(favorite.serialize()), 201
+
+@app.route('/favorite/starships', methods=['POST'])
+def new_favoritestarships(): 
+    datos = request.get_json()
+    favorite = Favorite()
+    favorite.user_id = datos['user_id']
+    favorite.starships_id = datos['starships_id']
+    favorite.save()
+    return jsonify(favorite.serialize()), 201
    
+@app.route('/favorite/planet/<int:id>', methods=['DELETE'])
+def delete_favoriteplanet(id):
+
+    favorito = Favorite.query.filter_by(planet_id = id).first()
+    ##favorite_planet = [favorite.serialize() for favorite in favorito]
+    print('Fav es: ')
+    
+    favorito.delete()
+   
+    return jsonify({ "message": "Bye Bye Planet" }), 200
+
+@app.route('/favorite/people/<int:id>', methods=['DELETE'])
+def delete_favoritepeople(id):
+    favorito = Favorite.query.filter_by(people_id = id).first()
+    favorito.delete()
+    return jsonify({ "message": "Bye Favorite" }), 200
+
+@app.route('/favorite/starships/<int:id>', methods=['DELETE'])
+def delete_favoritestarship(id):
+    favorito = Favorite.query.filter_by(starships_id = id).first()
+    favorito.delete()
+    return jsonify({ "message": "Bye Favorite" }), 200
+    
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':

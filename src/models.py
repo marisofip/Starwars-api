@@ -47,6 +47,9 @@ class People(db.Model):
             "gender": self.gender
             # do not serialize the password, its a security breach
         }
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
 
 class Planet(db.Model):
     __tablename__ = 'planet'
@@ -73,6 +76,9 @@ class Planet(db.Model):
             "terrain": self.terrain,
              # do not serialize the password, its a security breach
         }
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
 
 class Starships(db.Model):
     __tablename__ = 'starships'
@@ -98,6 +104,9 @@ class Starships(db.Model):
             "cargo_capacity": self.cargo_capacity,
             "crew": self.crew,
         }
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
 
         
 class Favorite(db.Model):
@@ -125,3 +134,14 @@ class Favorite(db.Model):
             "starships_id": self.starships_id,
             # do not serialize the password, its a security breach
         }
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        print('en delete: ')
+        db.session.delete(self)
+        print('delete de: ')
+        print(self)
+        db.session.commit()
